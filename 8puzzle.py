@@ -1,5 +1,5 @@
 import random
-import math
+from copy import deepcopy as dc
 
 board = ['1','2','3','8','X','4','7','6','5']
 goal=['1','2','3','8','X','4','7','6','5']
@@ -49,8 +49,27 @@ def h():
         h+=abs((gi-oi))+abs((gj-oj))
     return h
 
-def AI():
-    h=h()
+def detect_valid(board):
+    p=board.index('X')
+    if p%3==0:
+        board.remove(4)
+
+def AI(premov):
+    #h=h()
+    boardcopy = dc(board)
+    if premov==8:
+        #Cancel 2
+        detect_valid(boardcopy)
+        pass
+    if premov==2:
+        #Cancel 8
+        pass
+    if premov==4:
+        #Cancel 6
+        pass
+    if premov==6:
+        #Cancel 4
+        pass
 
 def shuffle(n):
     for i in range(n):
@@ -67,9 +86,11 @@ def shuffle(n):
 def manual():
     print('Moves:\n8: Up\n4: Left\n6: Right\n2: Down')
     display()
+    print('Current Hueristic value =',h())
     while True:
         x=int(input('Move:'))
         move(x)
+        print('Current Hueristic value =',h())
         gameend=check()
         if gameend:
             print('Congratulations! You won!')
