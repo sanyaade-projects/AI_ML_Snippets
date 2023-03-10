@@ -1,5 +1,9 @@
-board = ['1','2','3','4','5','6','7','8','X']
-pos=8
+import random
+import math
+
+board = ['1','2','3','8','X','4','7','6','5']
+goal=['1','2','3','8','X','4','7','6','5']
+pos=4
 
 def display():
     print('\t',board[0],'|',board[1],'|',board[2])
@@ -12,34 +16,67 @@ def move(mov):
         board[pos],board[pos-3] = board[pos-3],board[pos]
         pos-=3
         display()
-    else:
-        pass
     if mov == 2 and not (pos > 5):
         board[pos],board[pos+3] = board[pos+3],board[pos]
         pos+=3
         display()
-    else:
-        pass
     if mov == 4 and not (pos%3 == 0):
         board[pos],board[pos-1] = board[pos-1],board[pos]
         pos-=1
         display()
-    else:
-        pass
     if mov == 6 and not (pos%3 == 2):
         board[pos],board[pos+1] = board[pos+1],board[pos]
         pos+=1
         display()
-    else:
-        pass
 
-def main():
+def check():
+    for i in range(9):
+        if board[i]!=goal[i]:
+            return False
+    return True
+
+def comp(n):
+    n-=1
+    return n//3,n%3
+
+def h():
+    h=0
+    for i in range(1,9):
+        op=board.index(str(i))
+        gp=goal.index(str(i))
+        oi,oj = comp(op)
+        gi,gj = comp(gp)
+        h+=abs((gi-oi))+abs((gj-oj))
+    return h
+
+def AI():
+    h=h()
+
+def shuffle(n):
+    for i in range(n):
+        c=False
+        #print(random.choice([2,4,6,8]))
+        while not c:
+            ra=random.choice([2,4,6,8])
+            print(ra)
+            c=move(ra)
+            print(c)
+            if c==None:
+                c=True
+
+def manual():
     print('Moves:\n8: Up\n4: Left\n6: Right\n2: Down')
     display()
     while True:
         x=int(input('Move:'))
         move(x)
+        gameend=check()
+        if gameend:
+            print('Congratulations! You won!')
+            break
         if x==0:
             break
 
-main()
+shuffle(int(input('Enter n = ')))
+#print(h())
+manual()
