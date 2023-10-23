@@ -1,1 +1,1 @@
-# Projects on AI and ML
+# Exploring AI and ML Fundamental
